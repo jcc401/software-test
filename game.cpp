@@ -46,4 +46,46 @@ void show()  // 显示画面
 		printf("\n");
 	}
 	Sleep(500);
+}
+
+void updateWithoutInput()  // 与用户输入无关的更新
+{	
+	int NewCells[L][W]; // 下一帧的细胞情况
+	int NeibourNumber; //统计邻居的个数
+	int i,j;
+	for (i=1;i<=L-1;i++)
+	{
+		for (j=1;j<=W-1;j++)
+		{
+			NeibourNumber = cells[i-1][j-1] + cells[i-1][j] + cells[i-1][j+1]
+				+ cells[i][j-1] + cells[i][j+1] + cells[i+1][j-1] + cells[i+1][j] + cells[i+1][j+1];
+			if (NeibourNumber==3)
+				NewCells[i][j] = 1;  
+			else if (NeibourNumber==2)
+				NewCells[i][j] = cells[i][j];
+			else
+				NewCells[i][j] = 0; 
+		}
+	}
+	
+	for (i=1;i<=L-1;i++)
+		for (j=1;j<=W-1;j++)
+			cells[i][j] = NewCells[i][j];
+		
+}
+
+void updateWithInput()  // 与用户输入有关的更新
+{
+	
+}
+
+void main()
+{
+	startup();  // 数据初始化	
+	while (1) //  游戏循环执行
+	{
+		show();  // 显示画面
+		updateWithoutInput();  // 与用户输入无关的更新
+		updateWithInput();  // 与用户输入有关的更新
+	}
 }	
